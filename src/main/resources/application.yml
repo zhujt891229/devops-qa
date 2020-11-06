@@ -1,0 +1,41 @@
+server:
+  port: @server.port@
+  servlet:
+    context-path: @server.servlet.context.path@
+spring:
+  profiles:
+    active: @spring.profile.active@
+  datasource:
+    url: @spring.datasource.url@
+    username: @spring.datasource.username@
+    password: @spring.datasource.password@
+    driver-class-name: @spring.datasource.driver-class-name@
+
+  redis:
+    host: @spring.redis.host@
+    password: @spring.redis.password@
+    port: @spring.redis.port@
+    timeout: @spring.redis.timeout@
+    jedis:
+      pool:
+        max-active: @spring.redis.jedis.pool.max-active@
+        max-wait: @spring.redis.jedis.pool.max-wait@
+        max-idle: @spring.redis.jedis.pool.max-idle@
+        min-idle: @spring.redis.jedis.pool.min-idle@
+  cache:
+    redis:
+      time-to-live: @spring.cache.redis.time-to-live@
+    type: @spring.cache.type@
+
+mybatis:
+  mapper-locations: classpath*:*/*.xml
+
+websocketUrl: @websocketUrl@
+
+threadName: 消费者线程
+consumerThreadName: 消费者线程
+
+uploadFolder: @upload.folder@
+logging:
+  level:
+    com.icbc.qa.mapper: debug
