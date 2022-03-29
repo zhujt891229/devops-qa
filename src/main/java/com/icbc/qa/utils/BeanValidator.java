@@ -1,4 +1,4 @@
-package com.icbc.qa.common;
+package com.icbc.qa.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;

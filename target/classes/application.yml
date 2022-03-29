@@ -1,0 +1,71 @@
+server:
+  port: 8080
+  servlet:
+    context-path: @server.servlet.context.path@
+spring:
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/test?useSSL=true&userTimezone=true&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  redis:
+    host: 127.0.0.1
+    password: qwertasdfg
+    port: 6379
+    timeout: 9000ms
+    jedis:
+      pool:
+        max-active: 12000
+        max-wait: -1ms
+        max-idle: 100
+        min-idle: 8
+  cache:
+    redis:
+      time-to-live: 300000
+    type: redis
+
+
+  kafka:
+    bootstrap-servers: 122.46.216.69:9092
+#    producer:
+#      retries: 0
+#      batch-size:16384
+#      buffer-memory: 33554432
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      acks: 1
+    consumer:
+      auto-offset-reset: latest
+      enable-auto-commit: false
+      auto-commit-interval: 1s
+#      key-deserializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-deserializer: org.apache.kafka.common.serialization.StringSerializer
+    listener:
+      concurrency: 5
+#      ack-mode:manual_immediate
+      missing-topics-fatal: true
+  jmx:
+    default-domain: qa-api
+
+
+mybatis:
+  mapper-locations: classpath*:*/*.xml
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+websocketUrl: ws://127.0.0.1:8057/socket-api/webSocket/qaServer
+
+threadName: 消费者线程
+consumerThreadName: 消费者线程
+
+uploadFolder: images/
+logging:
+  level:
+    root: info
+    com.icbc.qa.mapper: debug
+    org.apache.kafka: info
+
+

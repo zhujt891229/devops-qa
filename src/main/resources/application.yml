@@ -27,8 +27,34 @@ spring:
       time-to-live: @spring.cache.redis.time-to-live@
     type: @spring.cache.type@
 
+
+  kafka:
+    bootstrap-servers: @bootstrap.servers@
+#    producer:
+#      retries: @retries@
+#      batch-size:@batch.size@
+#      buffer-memory: @buffer.memory@
+#      key-serializer: @key.serializer@
+#      value-serializer: @value.serializer@
+#      acks: @acks@
+    consumer:
+      auto-offset-reset: @auto.offset.reset@
+      enable-auto-commit: @enable.auto.commit@
+      auto-commit-interval: @auto.commit.interval@
+#      key-deserializer: @key.deserializer@
+#      value-deserializer: @value.deserializer@
+    listener:
+      concurrency: @concurrency@
+#      ack-mode:@ack.mode@
+      missing-topics-fatal: @missing.topics.fatal@
+  jmx:
+    default-domain: qa-api
+
+
 mybatis:
   mapper-locations: classpath*:*/*.xml
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 websocketUrl: @websocketUrl@
 
@@ -38,4 +64,8 @@ consumerThreadName: 消费者线程
 uploadFolder: @upload.folder@
 logging:
   level:
+    root: info
     com.icbc.qa.mapper: debug
+    org.apache.kafka: info
+
+
