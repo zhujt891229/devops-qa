@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket</title>
+</head>
+
+<body>
+    Welcome<br/>
+    <input id="text" type="text"/>
+    <button onclick="send()">send</button>
+    <button onclick="closeWebSocket()">close</button>
+</body>
+<script type="text/javascript">
+    var websocket=new WebSocket("ws://localhost:8080/qa-api/socket/Lily")
+    //连接发生错误的回调方法
+    websocket.onerror=function(){
+        setMessageInnerHTML("error");
+    }
+    //连接成功建立时回调方法
+    websocket.onopen=function(event){
+        setMessageInnerHTML("open");
+    }
+    //接收到消息时回调方法
+    websocket.onmessage=function(event){
+        setMessageInnerHTML(even.data);
+    }
+    //连接关闭时回调方法
+    websocket.onclose=function(){
+        setMessageInnerHTML("close");
+    }
+    //监听窗口关闭事件，当窗口关闭时，主动关闭websocket连接，防止意外中断抛异常
+    websocket.onbeforeunload=function(){
+        websocket.close();
+    }
+    //将消息显示在页面上
+    websocket.segMessageInnerHTML=function(){
+        document.getElementById('message').innerHTML+=innerHTML+'<br/>';
+    }
+    //关闭连接
+    websocket.closeWebSocket=function(){
+        websocket.close();
+    }
+    //发送消息
+    function send(){
+        var message=document.getElementById('text').value;
+        websocket.send(message);
+    }
+</script>
+</html>
