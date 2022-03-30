@@ -27,8 +27,8 @@ spring:
    type: redis
 
 
- kafka:
-  bootstrap-servers: 122.46.216.69:9092
+# kafka:
+#  bootstrap-servers: 122.46.216.69:9092
     #    producer:
     #      retries: @retries@
     #      batch-size:@batch.size@
@@ -36,18 +36,18 @@ spring:
     #      key-serializer: @key.serializer@
     #      value-serializer: @value.serializer@
     #      acks: @acks@
-  consumer:
-   auto-offset-reset: latest
-   enable-auto-commit: false
-   auto-commit-interval: 1s
+#  consumer:
+#   auto-offset-reset: latest
+#   enable-auto-commit: false
+#   auto-commit-interval: 1s
    #      key-deserializer: org.apache.kafka.common.serialization.StringSerializer
    #      value-deserializer: org.apache.kafka.common.serialization.StringSerializer
-  listener:
-   concurrency: 5
+#  listener:
+#   concurrency: 5
      #      ack-mode:manual_immediate
-   missing-topics-fatal: true
-  jmx:
-   default-domain: qa-api
+#   missing-topics-fatal: true
+#  jmx:
+#   default-domain: qa-api
 
 
 mybatis:

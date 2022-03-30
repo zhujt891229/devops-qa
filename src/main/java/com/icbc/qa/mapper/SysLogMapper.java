@@ -15,7 +15,7 @@ public interface SysLogMapper {
             "insert into sys_log (level,req_url,method,param,response,total_time,error_content,operation," +
             "client_ip,operator_id,create_time)values (#{sysLog.level},#{sysLog.reqUrl},#{sysLog.method}," +
             "#{sysLog.param},#{sysLog.response},#{sysLog.totalTime},#{sysLog.errorContent}," +
-            "#{sysLog.operation},#{sysLog.clientIp},#{sysLog.operatorId},#{now()})" +
+            "#{sysLog.operation},#{sysLog.clientIp},#{sysLog.operatorId},now())" +
             "</script>")
     int addSysLog(@Param("sysLog") SysLogInfo sysLogInfo);
 

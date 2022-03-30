@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -21,6 +22,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
+@Component
+@Aspect
 public class LogAspect {
     private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
     @Autowired
@@ -28,7 +31,7 @@ public class LogAspect {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
     @Pointcut("execution(public * com.icbc.qa.controller.*.*(..))"
-        +"&&!execution(public * com.icbc.qa.branch.controller.BranchController.queryJcpPageStatus(..))"
+//        +"&&!execution(public * com.icbc.qa.branch.controller.BranchController.queryJcpPageStatus(..))"
         )
     private void controllerAspect(){
         logger.info("切点");
@@ -107,7 +110,7 @@ public class LogAspect {
         sysLogInfo.setReqUrl(request.getRequestURI());
     }
 
-    @AfterReturning(returning = "o",pointcut = "controllerAspect")
+    @AfterReturning(returning = "o",pointcut = "controllerAspect()")
     public void methodAfter(Object o){
         SysLogInfo sysLogInfo=SysLogInfoUtil.getSysLogInfo();
         logger.info("**********返回内容**********");
@@ -132,7 +135,7 @@ public class LogAspect {
         }
     }
 
-    @Around("controllerAspect")
+    @Around("controllerAspect()")
     public Object around(ProceedingJoinPoint joinPoint){
         SysLogInfo sysLogInfo = SysLogInfoUtil.getSysLogInfo();
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
