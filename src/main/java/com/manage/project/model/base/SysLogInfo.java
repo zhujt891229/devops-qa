@@ -1,7 +1,7 @@
 package com.manage.project.model.base;
 
-import lombok.Getter;
-import lombok.Setter;
+//import lombok.Getter;
+//import lombok.Setter;
 
 
 public class SysLogInfo {

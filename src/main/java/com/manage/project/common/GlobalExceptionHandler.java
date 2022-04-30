@@ -2,7 +2,6 @@ package com.manage.project.common;
 
 import com.manage.project.exception.BusinessException;
 import com.manage.project.exception.ParamException;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @ControllerAdvice
-@Slf4j
 public class GlobalExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     @ExceptionHandler({RuntimeException.class})

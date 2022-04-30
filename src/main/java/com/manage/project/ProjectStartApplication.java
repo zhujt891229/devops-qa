@@ -1,6 +1,6 @@
 package com.manage.project;
 
-import lombok.extern.slf4j.Slf4j;
+//import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication//(exclude={DataSourceAutoConfiguration.class})
 @EnableAsync
 @EnableTransactionManagement
-@Slf4j
+//@Slf4j
 //@ComponentScan("com.manage.project.mapper.*")
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 //@EnableKafka

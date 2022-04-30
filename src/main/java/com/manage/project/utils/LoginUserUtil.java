@@ -1,6 +1,6 @@
 package com.manage.project.utils;
 
-import lombok.extern.slf4j.Slf4j;
+//import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -8,7 +8,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Slf4j
+//@Slf4j
 public class LoginUserUtil {
     private static final Logger log = LoggerFactory.getLogger(LoginUserUtil.class);
     public static String getCurrentToken(){
