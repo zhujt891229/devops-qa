@@ -69,7 +69,7 @@ public class LogAspect {
         try{
             if(args.length!=0&&args[0]!=null){
                 if(AspectUtil.isSelfObject(args)){
-                    if(!args[0].getClass().equals(RequestFacade.class)&&!args[0].getClass().equals(RequestFacade.class)){
+                    if(!args[0].getClass().equals(RequestFacade.class)){
                         param= JSONObject.toJSONString(args[0]);
                     }
                 }else{
@@ -119,6 +119,8 @@ public class LogAspect {
         JSONObject rjo = null;
         try{
             rjo=JSONObject.parseObject(JSONObject.toJSONString(o));
+            //sysLogInfo.setResponse(JSONObject.toJSONString(o));//响应内容太大，暂定只存msg
+            sysLogInfo.setResponse(rjo.getString("msg"));
         }catch(Exception e){
             e.printStackTrace();
             sysLogService.addSysLog(sysLogInfo);

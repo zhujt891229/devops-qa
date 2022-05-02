@@ -3,7 +3,7 @@ package com.manage.project.aspect;
 import com.manage.project.model.base.SysLogInfo;
 
 public class SysLogInfoUtil {
-    private static ThreadLocal<SysLogInfo> sysTl=new ThreadLocal<SysLogInfo>();
+    private static ThreadLocal<SysLogInfo> sysTl= new ThreadLocal<>();
     public static SysLogInfo getSysLogInfo(){
         SysLogInfo sysLogInfo=sysTl.get();
         if(sysLogInfo==null){

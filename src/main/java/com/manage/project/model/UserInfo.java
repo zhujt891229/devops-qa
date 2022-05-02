@@ -4,11 +4,11 @@ public class UserInfo {
     private String id;
     private String userId;
     private String userName;
-    private String deptId;
-    private String deptName;
+//    private String deptId;
+//    private String deptName;
     private String phoneNum;
     private String roleId;
-    private String roleName;
+//    private String roleName;
 
     public String getId() {
         return id;
@@ -34,21 +34,21 @@ public class UserInfo {
         this.userName = userName;
     }
 
-    public String getDeptId() {
-        return deptId;
-    }
-
-    public void setDeptId(String deptId) {
-        this.deptId = deptId;
-    }
-
-    public String getDeptName() {
-        return deptName;
-    }
-
-    public void setDeptName(String deptName) {
-        this.deptName = deptName;
-    }
+//    public String getDeptId() {
+//        return deptId;
+//    }
+//
+//    public void setDeptId(String deptId) {
+//        this.deptId = deptId;
+//    }
+//
+//    public String getDeptName() {
+//        return deptName;
+//    }
+//
+//    public void setDeptName(String deptName) {
+//        this.deptName = deptName;
+//    }
 
     public String getPhoneNum() {
         return phoneNum;
@@ -66,11 +66,11 @@ public class UserInfo {
         this.roleId = roleId;
     }
 
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
+//    public String getRoleName() {
+//        return roleName;
+//    }
+//
+//    public void setRoleName(String roleName) {
+//        this.roleName = roleName;
+//    }
 }
