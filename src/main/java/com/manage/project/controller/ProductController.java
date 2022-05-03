@@ -5,9 +5,8 @@ import com.manage.project.common.ResultInfo;
 import com.manage.project.model.Product;
 import com.manage.project.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController
@@ -28,5 +27,18 @@ public class ProductController {
         PageInfo<Product> productPage = productService.getProductList(distributorId, cellphone, pageNum, pageSize);
         return ResultInfo.ok(productPage);
     }
+
+    @PostMapping("/savePhoto")
+    public ResultInfo savePhoto(@RequestParam("file") MultipartFile file){
+        String uploadPath = productService.saveFile(file);
+        return ResultInfo.ok().setData(uploadPath);
+    }
+
+    @PostMapping("/saveProduct")
+    public ResultInfo saveProduct(@RequestBody Product product){
+        int i = productService.saveProduct(product);
+        return ResultInfo.ok();
+    }
+
 
 }

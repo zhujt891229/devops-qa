@@ -20,9 +20,9 @@ public class HomeController {
     @RequestMapping("/env")
     @ApiOperation("env")
     public Object testEnv() {
-        RedisConfig redisConfig=new RedisConfig();
+//        RedisConfig redisConfig=new RedisConfig();
         stringRedisTemplate.opsForValue().set("aaa","bbb");
-        String aaa = stringRedisTemplate.opsForValue().get("aaa");
+        String aaaValue = stringRedisTemplate.opsForValue().get("aaa");
         return dataConfig;
     }
 }

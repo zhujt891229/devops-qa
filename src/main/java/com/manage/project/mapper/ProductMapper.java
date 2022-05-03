@@ -1,6 +1,8 @@
 package com.manage.project.mapper;
 
 import com.manage.project.model.Product;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
 
@@ -31,4 +33,13 @@ public interface ProductMapper {
             " </script> ")
     List<Product> selectByParams(String distributorId, String cellphone);
 
+    @Insert(value = " <script> " +
+            " insert into product (bar_code_photo,customer_name,customer_cellphone,customer_address," +
+            " distributor_id,sale_time,create_time,update_time) values (#{product.barCodePhoto}," +
+            " #{product.customerName},#{product.customerCellphone},#{product.customerAddress}," +
+            " #{product.distributorId},now(),now(),now())" +
+            " </script> ")
+    int insert(@Param("product")Product product);
+
+    int update(Product product);
 }

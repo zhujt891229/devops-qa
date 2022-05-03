@@ -1,14 +1,12 @@
 package com.manage.project.model;
 
-import com.mysql.cj.jdbc.Blob;
-
 import java.time.LocalDateTime;
 
 public class Product {
     private Long id;
-    private Blob barCodePhoto;//条码照片
+    private String barCodePhoto;//条码照片
     private String customerName;//客户姓名
-    private String customerCellPhone;
+    private String customerCellphone;
     private String customerAddress;
     private String distributorId;//分销商ID
     private LocalDateTime saleTime;//销售时间
@@ -23,11 +21,11 @@ public class Product {
         this.id = id;
     }
 
-    public Blob getBarCodePhoto() {
+    public String getBarCodePhoto() {
         return barCodePhoto;
     }
 
-    public void setBarCodePhoto(Blob barCodePhoto) {
+    public void setBarCodePhoto(String barCodePhoto) {
         this.barCodePhoto = barCodePhoto;
     }
 
@@ -39,12 +37,12 @@ public class Product {
         this.customerName = customerName;
     }
 
-    public String getCustomerCellPhone() {
-        return customerCellPhone;
+    public String getCustomerCellphone() {
+        return customerCellphone;
     }
 
-    public void setCustomerCellPhone(String customerCellPhone) {
-        this.customerCellPhone = customerCellPhone;
+    public void setCustomerCellphone(String customerCellphone) {
+        this.customerCellphone = customerCellphone;
     }
 
     public String getCustomerAddress() {
