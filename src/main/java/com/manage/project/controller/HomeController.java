@@ -1,7 +1,6 @@
 package com.manage.project.controller;
 
 import com.manage.project.config.DataConfig;
-import com.manage.project.config.RedisConfig;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

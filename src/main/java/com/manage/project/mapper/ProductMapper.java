@@ -4,6 +4,7 @@ import com.manage.project.model.Product;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,19 +17,19 @@ public interface ProductMapper {
             " select t.id ," +
             " t.customer_name as customerName, " +
             " t.customer_cellphone as customerCellphone, " +
-            " customer_address as customerAddress, " +
-            " distributor_id as distributorId, " +
-            " sale_time as saleTime, " +
-            " create_time as createTime, " +
-            " update_time as updateTime, " +
-            " bar_code_photo as barCodePhoto " +
+            " t.customer_address as customerAddress, " +
+            " t.distributor_id as distributorId, " +
+            " t.sale_time as saleTime, " +
+            " t.create_time as createTime, " +
+            " t.update_time as updateTime, " +
+            " t.bar_code_photo as barCodePhoto " +
             " from product t " +
             " where 1=1 " +
             " <if test='distributorId != null and distributorId != \"\"'>" +
-            " and distributor_id = #{distributorId,jdbcType=VARCHAR}" +
+            " and t.distributor_id = #{distributorId,jdbcType=VARCHAR}" +
             " </if>" +
             " <if test='cellphone != null and cellphone != \"\"'>" +
-            " and customer_cellphone like concat('%', #{cellphone,jdbcType=VARCHAR},'%')" +
+            " and t.customer_cellphone like concat('%', #{cellphone,jdbcType=VARCHAR},'%')" +
             " </if>" +
             " </script> ")
     List<Product> selectByParams(String distributorId, String cellphone);
@@ -41,5 +42,10 @@ public interface ProductMapper {
             " </script> ")
     int insert(@Param("product")Product product);
 
-    int update(Product product);
+    @Update(value = " <script> " +
+            " update product set bar_code_photo=#{product.barCodePhoto},customer_name=#{product.customerName}, " +
+            " customer_cellphone=#{product.customerCellphone},customer_address=#{product.customerAddress}, " +
+            " update_time=now() where id=#{product.id} " +
+            " </script> ")
+    int update(@Param("product")Product product);
 }

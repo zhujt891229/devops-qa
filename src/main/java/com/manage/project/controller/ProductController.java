@@ -37,7 +37,7 @@ public class ProductController {
     @PostMapping("/saveProduct")
     public ResultInfo saveProduct(@RequestBody Product product){
         int i = productService.saveProduct(product);
-        return ResultInfo.ok();
+        return ResultInfo.ok().setData(i);
     }
 
 
