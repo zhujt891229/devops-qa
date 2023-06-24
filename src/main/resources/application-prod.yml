@@ -7,7 +7,7 @@ spring:
  datasource:
   url: jdbc:mysql://127.0.0.1:3306/test?useSSL=true&userTimezone=true&serverTimezone=Asia/Shanghai&allowMultiQueries=true
   username: root
-  password: 123456
+  password: 52o3344587
   driver-class-name: com.mysql.cj.jdbc.Driver
 
  redis:

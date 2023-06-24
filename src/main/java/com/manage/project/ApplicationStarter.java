@@ -17,10 +17,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 //@ComponentScan("com.manage.project.mapper.*")
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 //@EnableKafka
-public class ProjectStartApplication {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectStartApplication.class);
+public class ApplicationStarter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationStarter.class);
     public static void main(String[] args){
-        SpringApplication.run(ProjectStartApplication.class,args);
+        SpringApplication.run(ApplicationStarter.class,args);
         LOGGER.info("系统启动成功");
     }
 }
