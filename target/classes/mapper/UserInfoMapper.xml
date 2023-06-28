@@ -14,4 +14,12 @@
         from user_info
         where id = #{id,jdbcType=INTEGER}
     </select>
+
+    <select id="selectByUserIdAndPassword">
+        select
+        <include refid="Base_Column_list"/>
+        from user_info
+        where user_id=#userId
+        and password=#password
+    </select>
 </mapper>

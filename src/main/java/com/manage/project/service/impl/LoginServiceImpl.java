@@ -4,13 +4,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.manage.project.mapper.UserInfoMapper;
 import com.manage.project.model.UserInfo;
-import com.manage.project.param.UserLoginParam;
+import com.manage.project.param.LoginParam;
 import com.manage.project.service.LoginService;
 import com.manage.project.utils.HttpUtil;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
-
+@Service
 public class LoginServiceImpl implements LoginService {
     @Resource
     UserInfoMapper userInfoMapper;
@@ -19,7 +20,7 @@ public class LoginServiceImpl implements LoginService {
     private String BAAS_GET_USER_INFO;
 
     @Override
-    public UserInfo validateUser(UserLoginParam param) {
+    public UserInfo validateUser1(LoginParam param) {
         UserInfo userInfo = null;
         JSONObject ret = sendHttpRequest(param,BAAS_LOGIN);
         if(null!=ret){
@@ -45,7 +46,7 @@ public class LoginServiceImpl implements LoginService {
         return userInfo;
     }
 
-    private JSONObject sendHttpRequest(UserLoginParam param,String url){
+    private JSONObject sendHttpRequest(LoginParam param, String url){
         HashMap<String,Object> map = Maps.newHashMap();
         map.put("userId",param.getUserId());
         map.put("password",param.getPassword());
@@ -53,4 +54,14 @@ public class LoginServiceImpl implements LoginService {
         JSONObject ret = JSONObject.parseObject(res);
         return ret;
     }
+
+    @Override
+    public UserInfo validateUser(LoginParam loginParam) {
+        UserInfo userInfo = userInfoMapper.selectByUserIdAndPassword(loginParam.getUserId(), loginParam.getPassword());
+        if (userInfo == null) {
+            throw new RuntimeException("用户不存在");
+        }
+        return userInfo;
+    }
+
 }

@@ -38,7 +38,7 @@ websocketUrl: ws://127.0.0.1:8057/socket-api/webSocket/proServer
 threadName: 消费者线程
 consumerThreadName: 消费者线程
 
-uploadFolder: d:/upload/
+uploadFolder: data/upload/
 logging:
  level:
   root: info

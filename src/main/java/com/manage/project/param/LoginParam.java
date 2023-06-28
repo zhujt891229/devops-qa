@@ -2,7 +2,7 @@ package com.manage.project.param;
 
 import javax.validation.constraints.NotBlank;
 
-public class UserLoginParam {
+public class LoginParam {
     @NotBlank(message="userId must be not blank")
     private String userId;
 

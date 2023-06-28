@@ -1,15 +1,14 @@
 package com.manage.project.controller;
 
 import com.manage.project.config.DataConfig;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api("home controller")
+//@Api("home_controller")
 @RestController
+@RequestMapping("home_controller")
 public class HomeController {
     @Autowired
     private DataConfig dataConfig;
@@ -17,7 +16,7 @@ public class HomeController {
     StringRedisTemplate stringRedisTemplate;
 
     @RequestMapping("/env")
-    @ApiOperation("env")
+//    @ApiOperation("env1")
     public Object testEnv() {
 //        RedisConfig redisConfig=new RedisConfig();
         stringRedisTemplate.opsForValue().set("aaa","bbb");

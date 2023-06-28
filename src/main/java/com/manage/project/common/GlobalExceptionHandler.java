@@ -13,18 +13,18 @@ public class GlobalExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     @ExceptionHandler({RuntimeException.class})
     @ResponseBody
-    public ResultInfo exceptionHandle(RuntimeException e){
+    public CommonResponse<String> exceptionHandle(RuntimeException e){
         log.error("unknown exception",e);
         if(e instanceof ParamException ||e instanceof BusinessException){
-            return ResultInfo.failure(201,e.getMessage());
+            return CommonResponse.fail(e.getMessage());
         }
-        return ResultInfo.failure(500,"系统异常");
+        return CommonResponse.fail("系统异常");
     }
 
     @ExceptionHandler({Error.class})
     @ResponseBody
-    public ResultInfo errorHandle(Error e){
+    public CommonResponse<String> errorHandle(Error e){
         log.error("unknown exception",e);
-        return ResultInfo.failure(500,"系统异常");
+        return CommonResponse.fail("系统异常");
     }
 }

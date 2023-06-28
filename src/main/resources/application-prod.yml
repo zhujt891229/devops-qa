@@ -9,7 +9,9 @@ spring:
   username: root
   password: 52o3344587
   driver-class-name: com.mysql.cj.jdbc.Driver
-
+  druid:
+   mysql:
+    usePingMethod: false
  redis:
   host: 127.0.0.1
   password: qwertasdfg

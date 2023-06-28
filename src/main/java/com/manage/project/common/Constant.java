@@ -13,4 +13,7 @@ public interface Constant {
     String CSV=".csv";
 
     Integer SIZE=20*1024*1024;
+
+    Integer SUCCESS=0;
+    Integer ERROR = 1;
 }
