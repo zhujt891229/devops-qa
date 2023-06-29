@@ -2,6 +2,7 @@ package com.manage.project.mapper;
 
 import com.manage.project.model.UserInfo;
 import com.manage.project.param.LoginParam;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
@@ -17,4 +18,7 @@ public interface UserInfoMapper {
     UserInfo selectByUserId(@Param("userId") String userId);
 
     UserInfo selectByUserNameAndPassword(String userName,String password);
+
+    @Delete("delete from user_info where user_id = #{userId}")
+    int deleteByUserId(Integer userId);
 }
