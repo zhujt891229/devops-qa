@@ -1,6 +1,5 @@
 package com.manage.project.utils;
 
-//import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +12,6 @@ import java.time.Duration;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-//@Slf4j
 public class LoginUtil {
 
     private static StringRedisTemplate stringRedisTemplate=new StringRedisTemplate();

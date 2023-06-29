@@ -6,4 +6,6 @@ import com.manage.project.param.LoginParam;
 public interface LoginService {
     UserInfo validateUser(LoginParam param);
     UserInfo validateUser1(LoginParam loginParam);
+
+    UserInfo register(LoginParam loginParam);
 }

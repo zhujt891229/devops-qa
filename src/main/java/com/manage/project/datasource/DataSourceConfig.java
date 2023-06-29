@@ -39,7 +39,8 @@ public class DataSourceConfig {
     public SqlSessionFactory testSqlSessionFactory(@Qualifier("dataSource") DruidDataSource dataSource) throws Exception{
         SqlSessionFactoryBean bean=new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-//        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResource("classpath:mapper/*.xml"));
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*.xml"));
+//        bean.setTypeAliasesPackage("com.manage.project.mapper");
         bean.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);
         return bean.getObject();
     }

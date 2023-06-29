@@ -1,7 +1,7 @@
 package com.manage.project.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.manage.project.common.CommonResponse;
+import com.manage.project.common.Response;
 import com.manage.project.model.Distributor;
 import com.manage.project.service.DistributorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ public class DistributorController {
     private DistributorService distributorService;
 
     @GetMapping("/getDistributorList")
-    public CommonResponse<PageInfo<Distributor>> getDistributorList(String cellphone, String address, Integer pageNum, Integer pageSize){
+    public Response<PageInfo<Distributor>> getDistributorList(String cellphone, String address, Integer pageNum, Integer pageSize){
         if(null==pageNum||pageNum<1){
             pageNum=1;
         }
@@ -22,12 +22,12 @@ public class DistributorController {
             pageSize=5;
         }
         PageInfo<Distributor> distributorPage = distributorService.getDistributorList(cellphone,address, pageNum, pageSize);
-        return CommonResponse.ok(distributorPage);
+        return Response.ok(distributorPage);
     }
 
     @PostMapping("/saveDistributor")
-    public CommonResponse<Integer> saveDistributor(@RequestBody Distributor distributor){
+    public Response<Integer> saveDistributor(@RequestBody Distributor distributor){
         int i = distributorService.saveDistributor(distributor);
-        return CommonResponse.ok(i);
+        return Response.ok(i);
     }
 }

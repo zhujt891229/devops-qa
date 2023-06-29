@@ -10,7 +10,9 @@ import com.manage.project.utils.HttpUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.HashMap;
+
 @Service
 public class LoginServiceImpl implements LoginService {
     @Resource
@@ -33,13 +35,13 @@ public class LoginServiceImpl implements LoginService {
                 if(jsonObject!=null&&(userInfo=jsonObject.getObject("data",UserInfo.class))!=null){
                     UserInfo userInfoExisted = userInfoMapper.selectByUserId(userInfo.getUserId());
                     if(userInfoExisted==null){
-                        userInfoMapper.insertSelective(userInfo);
+                        userInfoMapper.insert(userInfo);
                     }else{
-                        userInfo.setId(userInfoExisted.getId());
+                        userInfo.setUserId(userInfoExisted.getUserId());
                         userInfoMapper.updateByPrimaryKeySelective(userInfo);
                     }
                 }else{
-                    userInfo = userInfoMapper.selectByUserId(param.getUserId());
+                    userInfo = userInfoMapper.selectByUserId(param.getUserName());
                 }
             }
         }
@@ -48,7 +50,7 @@ public class LoginServiceImpl implements LoginService {
 
     private JSONObject sendHttpRequest(LoginParam param, String url){
         HashMap<String,Object> map = Maps.newHashMap();
-        map.put("userId",param.getUserId());
+        map.put("userId",param.getUserName());
         map.put("password",param.getPassword());
         String res = HttpUtil.sendPost(url,map);
         JSONObject ret = JSONObject.parseObject(res);
@@ -57,11 +59,42 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public UserInfo validateUser(LoginParam loginParam) {
-        UserInfo userInfo = userInfoMapper.selectByUserIdAndPassword(loginParam.getUserId(), loginParam.getPassword());
+        UserInfo userInfo = userInfoMapper.selectByUserNameAndPassword(loginParam.getUserName(),loginParam.getPassword());
         if (userInfo == null) {
             throw new RuntimeException("用户不存在");
         }
         return userInfo;
     }
 
+    @Override
+    public UserInfo register(LoginParam loginParam) {
+
+//        UserInfo user = userInfoMapper.selectByUserId(loginParam.getUserId());
+//        if (user != null) {
+//            throw new RuntimeException("用户名已被占用");
+//        }
+        UserInfo user = new UserInfo();
+
+        //密码加密：使用md5算法加密
+//        String oldPassword = loginParam.getPassword();
+        //获取盐值
+//        String salt = UUID.randomUUID().toString().toUpperCase();
+        //将密码和盐值作为一个整体进行加密处理
+//        String md5Password = MD5Util.md5encrypt(oldPassword, salt);
+//        user.setPassword(md5Password);
+        user.setSalt("");
+        user.setPhoneNumber(null==loginParam.getPhoneNumber()?"": loginParam.getPhoneNumber());
+        user.setUserName(loginParam.getUserName());
+        user.setPassword(loginParam.getPassword());
+        user.setIsDelete(0);
+        LocalDateTime date = LocalDateTime.now();
+        user.setCreatedTime(date);
+        user.setModifiedTime(date);
+
+        int rows = userInfoMapper.insert(user);
+        if (rows != 1) {
+            throw new RuntimeException("失败(用户创建过程中产生了未知的异常)");
+        }
+        return user;
+    }
 }

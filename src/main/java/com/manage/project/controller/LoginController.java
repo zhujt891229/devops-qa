@@ -1,6 +1,6 @@
 package com.manage.project.controller;
 
-import com.manage.project.common.CommonResponse;
+import com.manage.project.common.Response;
 import com.manage.project.model.UserInfo;
 import com.manage.project.param.LoginParam;
 import com.manage.project.service.LoginService;
@@ -16,30 +16,29 @@ public class LoginController {
     @Resource
     private LoginService loginService;
 
-    private final Integer SALT = 12345;
-
     @PostMapping("/check_login")
-    public CommonResponse<UserInfo> checkLogin(@RequestBody LoginParam loginParam) {
-        CommonResponse<UserInfo> response;
+    public Response<UserInfo> checkLogin(@RequestBody LoginParam loginParam) {
+        Response<UserInfo> response;
         try {
             UserInfo userInfo = loginService.validateUser(loginParam);
-            response = CommonResponse.ok(userInfo);
+            response = Response.ok(userInfo);
         } catch (Exception e) {
             e.printStackTrace();
-            response = CommonResponse.fail("login error");
+            response = Response.fail("login error");
         }
         return response;
     }
 
     @RequestMapping("/encrypt")
-    public CommonResponse<String> encrypt(String password){
-        String s = MD5Util.md5Digest(password, SALT);
-        return CommonResponse.ok("success",s);
+    public Response<String> encrypt(String password){
+        final String SALT = "12345";
+        String s = MD5Util.md5encrypt(password, SALT);
+        return Response.ok("success",s);
     }
 
-    @RequestMapping ("/decrypt")
-    public CommonResponse<String> decrypt(String s){
-        String password = "";
-        return CommonResponse.ok("success",password);
+    @RequestMapping("/signIn")
+    public Response<UserInfo> signIn(@RequestBody LoginParam loginParam){
+        UserInfo user = loginService.register(loginParam);
+        return Response.ok(user);
     }
 }
