@@ -1,8 +1,8 @@
 package com.manage.project.service.impl;
 
 import com.manage.project.mapper.UserInfoMapper;
+import com.manage.project.model.UserInfo;
 import com.manage.project.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -11,9 +11,9 @@ public class UserServiceImpl implements UserService {
     @Resource
     UserInfoMapper userInfoMapper;
     @Override
-    public String getUserInfo(String userId) {
-        System.out.println("查询结束");
-        return "123";
+    public UserInfo getUserInfo(Integer userId) {
+        UserInfo userInfo = userInfoMapper.selectByUserId(userId);
+        return userInfo;
     }
 
     @Override

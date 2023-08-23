@@ -1,9 +1,10 @@
 package com.manage.project.param;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 public class LoginParam {
-    @NotBlank(message="userName must be not blank")
+    private Integer userId;
+//    @NotBlank(message="userName must be not blank")
     private String userName;
 
     private String phoneNumber;
@@ -11,6 +12,14 @@ public class LoginParam {
 
     @NotBlank(message = "password must be not blank")
     private String password;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     public String getUserName() {
         return userName;

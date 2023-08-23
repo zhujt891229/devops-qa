@@ -5,6 +5,7 @@ import com.manage.project.common.Response;
 import com.manage.project.model.Distributor;
 import com.manage.project.service.DistributorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class DistributorController {
     @Autowired
     private DistributorService distributorService;
-
+@PostAuthorize("hasAnyAuthority('admins')")
     @GetMapping("/getDistributorList")
     public Response<PageInfo<Distributor>> getDistributorList(String cellphone, String address, Integer pageNum, Integer pageSize){
         if(null==pageNum||pageNum<1){

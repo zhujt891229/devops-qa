@@ -6,13 +6,14 @@ import com.github.pagehelper.PageInfo;
 import com.manage.project.mapper.DistributorMapper;
 import com.manage.project.model.Distributor;
 import com.manage.project.service.DistributorService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 @Service
 public class DistributorServiceImpl implements DistributorService {
 
-    @Autowired
+    @Resource
     private DistributorMapper distributorMapper;
 
     @Override

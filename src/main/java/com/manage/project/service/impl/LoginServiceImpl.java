@@ -7,6 +7,8 @@ import com.manage.project.model.UserInfo;
 import com.manage.project.param.LoginParam;
 import com.manage.project.service.LoginService;
 import com.manage.project.utils.HttpUtil;
+import com.manage.project.utils.LoginUtil;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,6 +22,8 @@ public class LoginServiceImpl implements LoginService {
 
     private String BAAS_LOGIN;
     private String BAAS_GET_USER_INFO;
+
+    private RedisTemplate redisTemplate;
 
     @Override
     public UserInfo validateUser1(LoginParam param) {
@@ -41,7 +45,7 @@ public class LoginServiceImpl implements LoginService {
                         userInfoMapper.updateByPrimaryKeySelective(userInfo);
                     }
                 }else{
-                    userInfo = userInfoMapper.selectByUserId(param.getUserName());
+                    userInfo = userInfoMapper.selectByUserId(param.getUserId());
                 }
             }
         }
@@ -59,10 +63,12 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public UserInfo validateUser(LoginParam loginParam) {
-        UserInfo userInfo = userInfoMapper.selectByUserNameAndPassword(loginParam.getUserName(),loginParam.getPassword());
+        UserInfo userInfo = userInfoMapper.selectByUserIdAndPassword(loginParam.getUserId(),loginParam.getPassword());
         if (userInfo == null) {
             throw new RuntimeException("用户不存在");
         }
+        String token = LoginUtil.generateToken(loginParam.getUserName());
+
         return userInfo;
     }
 

@@ -1,15 +1,12 @@
 package com.manage.project.mapper;
 
 import com.manage.project.model.base.SysLogInfo;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
+@Mapper
 public interface SysLogMapper {
     @Insert(value = "<script>" +
             "insert into sys_log (level,req_url,method,param,response,total_time,error_content,operation," +

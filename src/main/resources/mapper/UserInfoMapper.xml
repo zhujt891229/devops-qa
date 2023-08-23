@@ -17,12 +17,11 @@
         where user_id = #{userId,jdbcType=INTEGER}
     </select>
 
-    <select id="selectByUserNameAndPassword" resultMap="BaseResultMap" parameterType="string">
+    <select id="selectByUserIdAndPassword" resultMap="BaseResultMap" parameterType="string">
         select
         <include refid="Base_Column_List"/>
         from user_info
-        where user_name=#{userName}
+        where user_id=#{userId}
         and password=#{password}
-        limit 1
     </select>
 </mapper>

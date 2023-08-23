@@ -3,7 +3,10 @@ server:
  servlet:
   context-path: /managePro
 spring:
-
+ security:
+   user:
+    name: root
+    password: root
  datasource:
   url: jdbc:mysql://127.0.0.1:3306/test?useSSL=true&userTimezone=true&serverTimezone=Asia/Shanghai&allowMultiQueries=true
   username: root
@@ -12,17 +15,30 @@ spring:
   druid:
    mysql:
     usePingMethod: false
+# redis:
+#  host: 127.0.0.1
+#  password:
+#  port: 6379
+#  timeout: 9000ms
+#  jedis:
+#   pool:
+#    max-active: 100
+#    max-wait: 1ms
+#    max-idle: 20
+#    min-idle: 8
+
  redis:
-  host: 127.0.0.1
-  password:
+  host: localhost
   port: 6379
-  timeout: 9000ms
-  jedis:
+  lettuce:
    pool:
-    max-active: 12000
-    max-wait: 1ms
-    max-idle: 100
-    min-idle: 8
+    max-active: 100
+    max-wait: -1ms
+    max-idle: 8
+    min-idle: 1
+  timeout: PT10S
+  password:
+
  cache:
   redis:
    time-to-live: 300000
