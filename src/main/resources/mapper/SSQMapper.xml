@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manage.project.mapper.SSQMapper">
+
+    <insert id="batchSave" parameterType="java.util.List">
+        INSERT INTO shuangseqiu (code,date,week,red,
+        blue,sales,pool,content,first_count,first_money,
+        second_count,second_money,third_count,third_money,
+        fourth_count,fourth_money,fifth_count,fifth_money,
+        sixth_count,sixth_money,create_time,update_time)
+        VALUES
+        <foreach collection ="list" item="ssq" separator =",">
+            (#{ssq.code},#{ssq.date},#{ssq.week},#{ssq.red},
+            #{ssq.blue},#{ssq.sales},#{ssq.poolmoney},#{ssq.content},
+            #{ssq.firstCount},#{ssq.firstMoney},
+            #{ssq.secondCount},#{ssq.secondMoney},
+            #{ssq.thirdCount},#{ssq.thirdMoney},
+            #{ssq.fourthCount},#{ssq.fourthMoney},
+            #{ssq.fifthCount},#{ssq.fifthMoney},
+            #{ssq.sixthCount},#{ssq.sixthMoney},
+            now(),now())
+        </foreach>
+        on duplicate key update update_time = now()
+
+    </insert>
+
+</mapper>
