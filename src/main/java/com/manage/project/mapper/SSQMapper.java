@@ -1,6 +1,7 @@
 package com.manage.project.mapper;
 
 import com.manage.project.model.SSQDetail;
+import com.manage.project.model.SSQPoolItem;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -31,4 +32,6 @@ public interface SSQMapper {
     int save(@Param("ssq") SSQDetail ssq);
 
     int batchSave(@Param("list") List<SSQDetail> list);
+
+    int batchSavePoolItem(@Param("list") List<SSQPoolItem> list);
 }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.manage.project.mapper.SSQMapper;
 import com.manage.project.model.SSQDetail;
+import com.manage.project.model.SSQPoolItem;
 import com.manage.project.service.LotteryService;
 import com.manage.project.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,6 +92,37 @@ public class LotteryServiceImpl implements LotteryService {
             list.add(detail);
         }
         int count = ssqMapper.batchSave(list);
-        return 0;
+        return count;
+    }
+
+    @Override
+    public void generatePool() {
+        List<SSQPoolItem> list = new ArrayList<>();
+        for (int r1= 1;r1<=28;r1++){
+            for (int r2 = r1+1;r2<=29;r2++){
+                for (int r3 = r2+1;r3<=30;r3++){
+                    for (int r4=r3+1;r4<=31;r4++){
+                        for (int r5 = r4+1;r5<=32;r5++){
+                            for (int r6=(r5 + 1);r6<=33;r6++){
+                                for (int b =1;b<=16;b++){
+                                    SSQPoolItem pool1 = new SSQPoolItem();
+                                    pool1.setRed(r1+","+r2+","+r3+","+r4+","+r5+","+r6);
+                                    pool1.setBlue(String.valueOf(b));
+                                    list.add(pool1);
+                                    if(list.size()%999==0){
+                                        ssqMapper.batchSavePoolItem(list);
+                                        list.clear();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if(list.size()>0){
+            ssqMapper.batchSavePoolItem(list);
+            list.clear();
+        }
     }
 }

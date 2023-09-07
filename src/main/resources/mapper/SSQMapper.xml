@@ -24,4 +24,13 @@
 
     </insert>
 
+    <insert id="batchSavePoolItem" parameterType="java.util.List">
+        INSERT INTO shuangseqiu_pool (red,blue)
+        VALUES
+        <foreach collection ="list" item="item" separator =",">
+            (#{item.red},#{item.blue})
+        </foreach>
+
+    </insert>
+
 </mapper>
