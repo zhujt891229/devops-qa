@@ -3,7 +3,6 @@ package com.zjt.qas.controller;
 import com.zjt.qas.common.Response;
 import com.zjt.qas.common.ResponseResult;
 import com.zjt.qas.common.ResultInfo;
-import com.zjt.qas.config.DataConfig;
 import com.zjt.qas.config.RedisConfig;
 import com.zjt.qas.datasource.DataSourceConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("home")
 public class HomeController {
     //@Autowired
-    //private DataConfig dataConfig;
     //private RedisConfig dataConfig;
     //private DataSourceConfig dataConfig;
     @Autowired
