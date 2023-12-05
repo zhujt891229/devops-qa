@@ -2,18 +2,21 @@ package com.zjt.qas.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
+import com.zjt.qas.common.Constant;
 import com.zjt.qas.mapper.UserInfoMapper;
 import com.zjt.qas.model.entity.UserInfo;
 import com.zjt.qas.model.param.LoginParam;
 import com.zjt.qas.service.LoginService;
 import com.zjt.qas.utils.HttpUtil;
 import com.zjt.qas.utils.LoginUtil;
+import com.zjt.qas.utils.MD5Util;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.UUID;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -54,7 +57,7 @@ public class LoginServiceImpl implements LoginService {
 
     private JSONObject sendHttpRequest(LoginParam param, String url){
         HashMap<String,Object> map = Maps.newHashMap();
-        map.put("userId",param.getUserName());
+        map.put("username",param.getUsername());
         map.put("password",param.getPassword());
         String res = HttpUtil.sendPost(url,map);
         JSONObject ret = JSONObject.parseObject(res);
@@ -67,35 +70,45 @@ public class LoginServiceImpl implements LoginService {
         if (userInfo == null) {
             throw new RuntimeException("用户不存在");
         }
-        String token = LoginUtil.generateToken(loginParam.getUserName());
+        //String token = LoginUtil.generateToken(loginParam.getUsername());
 
         return userInfo;
+    }
+    @Override
+    public String login(String username,String password){
+        UserInfo userInfo = userInfoMapper.selectByUsernameAndPassword(username,password);
+        if (userInfo == null) {
+            throw new RuntimeException("用户名或密码错误");
+        }
+        String token = LoginUtil.generateToken(userInfo.getUserId());
+        return token;
     }
 
     @Override
     public UserInfo register(LoginParam loginParam) {
 
-//        UserInfo user = userInfoMapper.selectByUserId(loginParam.getUserId());
-//        if (user != null) {
-//            throw new RuntimeException("用户名已被占用");
-//        }
-        UserInfo user = new UserInfo();
+        UserInfo user = userInfoMapper.selectByUsername(loginParam.getUsername());
+        if (user != null) {
+            throw new RuntimeException("用户名已被占用");
+        }else{
+            user = new UserInfo();
+        }
 
         //密码加密：使用md5算法加密
-//        String oldPassword = loginParam.getPassword();
+        String oldPassword = loginParam.getPassword();
         //获取盐值
-//        String salt = UUID.randomUUID().toString().toUpperCase();
+        String salt = UUID.randomUUID().toString().toUpperCase();
         //将密码和盐值作为一个整体进行加密处理
-//        String md5Password = MD5Util.md5encrypt(oldPassword, salt);
-//        user.setPassword(md5Password);
+        String md5Password = MD5Util.md5encrypt(oldPassword, Constant.SALT);
+        user.setPassword(md5Password);
         user.setSalt("");
         user.setPhoneNumber(null==loginParam.getPhoneNumber()?"": loginParam.getPhoneNumber());
-        user.setUserName(loginParam.getUserName());
-        user.setPassword(loginParam.getPassword());
+        user.setUsername(loginParam.getUsername());
+        user.setPassword(md5Password);
         user.setIsDelete(0);
         LocalDateTime date = LocalDateTime.now();
         user.setCreatedTime(date);
-        user.setModifiedTime(date);
+        user.setUpdatedTime(date);
 
         int rows = userInfoMapper.insert(user);
         if (rows != 1) {

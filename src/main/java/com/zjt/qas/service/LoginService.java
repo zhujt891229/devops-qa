@@ -7,5 +7,7 @@ public interface LoginService {
     UserInfo validateUser(LoginParam param);
     UserInfo validateUser1(LoginParam loginParam);
 
+    String login(String username,String password);
+
     UserInfo register(LoginParam loginParam);
 }

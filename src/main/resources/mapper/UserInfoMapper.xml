@@ -3,12 +3,12 @@
 <mapper namespace="com.zjt.qas.mapper.UserInfoMapper">
     <resultMap id="BaseResultMap" type="com.zjt.qas.model.entity.UserInfo">
         <id column="user_id" property="userId" jdbcType="INTEGER"/>
-        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
         <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR"/>
         <result column="created_time" property="createdTime" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-        user_id,user_name,phone_number,created_time
+        user_id,username,phone_number,created_time
     </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
@@ -17,11 +17,26 @@
         where user_id = #{userId,jdbcType=INTEGER}
     </select>
 
+    <select id="selectByUsername" resultMap="BaseResultMap" parameterType="string">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info
+        where username=#{username}
+    </select>
+
     <select id="selectByUserIdAndPassword" resultMap="BaseResultMap" parameterType="string">
         select
         <include refid="Base_Column_List"/>
         from user_info
         where user_id=#{userId}
+        and password=#{password}
+    </select>
+
+    <select id="selectByUsernameAndPassword" resultMap="BaseResultMap" parameterType="string">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info
+        where username=#{username}
         and password=#{password}
     </select>
 </mapper>

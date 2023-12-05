@@ -98,7 +98,7 @@ package com.zjt.qas.config;
 //    }
 //}
 
-
+//-----------------------------------------------------------------------
 //import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.cache.CacheManager;
 //import org.springframework.cache.annotation.EnableCaching;
@@ -257,72 +257,193 @@ package com.zjt.qas.config;
 //    }
 //}
 
+//-----------------------------------------------------------------------------
+//import com.fasterxml.jackson.annotation.JsonAutoDetect;
+//import com.fasterxml.jackson.annotation.JsonInclude;
+//import com.fasterxml.jackson.annotation.JsonTypeInfo;
+//import com.fasterxml.jackson.annotation.PropertyAccessor;
+//import com.fasterxml.jackson.databind.DeserializationFeature;
+//import com.fasterxml.jackson.databind.MapperFeature;
+//import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.SerializationFeature;
+//import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
+//import org.springframework.data.redis.connection.RedisConnectionFactory;
+//import org.springframework.data.redis.core.RedisTemplate;
+//import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+//import org.springframework.data.redis.serializer.RedisSerializer;
+//import org.springframework.data.redis.serializer.StringRedisSerializer;
+//
+//@Configuration
+//public class RedisConfig {
+//    @Autowired
+//    private RedisConnectionFactory redisConnectionFactory;
+//
+//    @Bean
+//    @SuppressWarnings("all")
+//    public RedisTemplate<String,Object> redisTemplate(){
+//
+//        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+//        redisTemplate.setConnectionFactory(redisConnectionFactory);
+//
+//        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = this.jackson2JsonRedisSerializer();
+//
+//        //String序列化
+//        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+//        redisTemplate.setDefaultSerializer(RedisSerializer.string());
+//        //key采用string的序列化方式
+//        redisTemplate.setKeySerializer(stringRedisSerializer);
+//        //hash的key采用string的序列化方式
+//        redisTemplate.setHashKeySerializer(stringRedisSerializer);
+//        //value序列化也采用jackson
+//        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+//        //hash的value也采用jackson
+//        redisTemplate.setHashValueSerializer( jackson2JsonRedisSerializer);
+//        redisTemplate.afterPropertiesSet();
+//
+//        return redisTemplate;
+//    }
+//
+//    /**
+//     * 自定义jackson2JsonRedisSerializer对象
+//     * @return
+//     */
+//    private Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer() {
+//        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer =
+//                new Jackson2JsonRedisSerializer<>(Object.class);
+//
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+////        objectMapper.configure(MapperFeature.USE_ANNOTATIONS, false);
+//        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+//        // 此项必须配置，否则会报java.lang.ClassCastException: java.util.LinkedHashMap cannot be cast to XXX
+//        objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance,ObjectMapper.DefaultTyping.NON_FINAL
+//                , JsonTypeInfo.As.PROPERTY);
+//        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+//        jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
+//        return jackson2JsonRedisSerializer;
+//    }
+//
+//}
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
-import org.springframework.beans.factory.annotation.Autowired;
+
+//-------------------------
+
+import com.zjt.qas.utils.redis.GenericFastjson2JsonRedisSerializer;
+import com.zjt.qas.utils.redis.RedisDbSelectFactory;
+import com.zjt.qas.utils.redis.RedisManager;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import java.net.UnknownHostException;
+
+/**
+ *
+ * @see RedisProperties
+ * @see RedisAutoConfiguration
+ *
+ * @author TimFruit
+ * @date 19-12-27
+ */
 @Configuration
 public class RedisConfig {
-    @Autowired
-    private RedisConnectionFactory redisConnectionFactory;
 
-    @Bean
-    @SuppressWarnings("all")
-    public RedisTemplate<String,Object> redisTemplate(){
+    /**
+     * 默认key是String, value是json
+     *
+     * @param redisConnectionFactory
+     * @return
+     */
+    @Bean("defaultRedisTemplate")
+    public RedisTemplate<String, Object> defaultRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnectionFactory);
 
-        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        //设置序列化
+        RedisSerializer stringSerializer = new StringRedisSerializer();
+        //本人偏好使用fastjson序列化成json
+        RedisSerializer jsonSerializer = new GenericFastjson2JsonRedisSerializer();
+        //官方提供jackson序列化成json
+        //RedisSerializer jsonSerializer=new GenericJackson2JsonRedisSerializer();
 
-        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = this.jackson2JsonRedisSerializer();
+        template.setKeySerializer(stringSerializer);
+        template.setValueSerializer(jsonSerializer);
 
-        //String序列化
-        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
-        //key采用string的序列化方式
-        redisTemplate.setKeySerializer(stringRedisSerializer);
-        //hash的key采用string的序列化方式
-        redisTemplate.setHashKeySerializer(stringRedisSerializer);
-        //value序列化也采用jackson
-        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
-        //hash的value也采用jackson
-        redisTemplate.setHashValueSerializer( jackson2JsonRedisSerializer);
-        redisTemplate.afterPropertiesSet();
+        template.setHashKeySerializer(stringSerializer);
+        template.setHashValueSerializer(jsonSerializer);
 
-        return redisTemplate;
+        return template;
     }
 
     /**
-     * 自定义jackson2JsonRedisSerializer对象
+     * key是String, value是json
+     *
+     * @param defaultRedisTemplate
      * @return
      */
-    private Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer() {
-        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer =
-                new Jackson2JsonRedisSerializer<>(Object.class);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-//        objectMapper.configure(MapperFeature.USE_ANNOTATIONS, false);
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        // 此项必须配置，否则会报java.lang.ClassCastException: java.util.LinkedHashMap cannot be cast to XXX
-        objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance,ObjectMapper.DefaultTyping.NON_FINAL
-                , JsonTypeInfo.As.PROPERTY);
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
-        return jackson2JsonRedisSerializer;
+    @Bean("defaultRedisManager")
+    public RedisManager<String, Object> defaultRedisManager(
+            @Qualifier("defaultRedisTemplate") RedisTemplate<String, Object> defaultRedisTemplate) {
+        return new RedisManager<>(defaultRedisTemplate);
     }
 
+    /**
+     * key是String, value是json
+     * 使用3号库
+     *
+     * @param defaultRedisTemplate
+     * @return
+     */
+    @Bean("default3RedisManager")
+    public RedisManager<String, Object> default3RedisManager(
+            @Qualifier("defaultRedisTemplate") RedisTemplate<String, Object> defaultRedisTemplate) {
+        RedisTemplate<String, Object> default3RedisTemplate = RedisDbSelectFactory.selectDb(defaultRedisTemplate, 3);
+        return new RedisManager<>(default3RedisTemplate);
+    }
+
+    /**
+     * key, value 都是字符串
+     *
+     * @param stringRedisTemplate 由{@link RedisAutoConfiguration}实例化stringRedisTemplate
+     * @return
+     */
+    @Bean("stringRedisManager")
+    public RedisManager<String, String> stringRedisManager(
+            @Qualifier("stringRedisTemplate") RedisTemplate<String, String> stringRedisTemplate) {
+        return new RedisManager<>(stringRedisTemplate);
+    }
+
+    /**
+     * key, value 都是字符串
+     * 使用3号库
+     *
+     * @param stringRedisTemplate 由{@link RedisAutoConfiguration}实例化stringRedisTemplate
+     * @return
+     */
+    @Bean("string3RedisManager")
+    public RedisManager<String, String> string3RedisManager(
+            @Qualifier("stringRedisTemplate") RedisTemplate<String, String> stringRedisTemplate) {
+        RedisTemplate<String, String> string3RedisTemplate = RedisDbSelectFactory.selectDb(stringRedisTemplate, 3);
+        return new RedisManager<>(string3RedisTemplate);
+    }
+
+    @Bean("stringRedisTemplate")
+    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        StringRedisTemplate template = new StringRedisTemplate();
+        template.setConnectionFactory(redisConnectionFactory);
+////      是否开启共享连接, 默认开启
+//        ((LettuceConnectionFactory)redisConnectionFactory).setShareNativeConnection(false);
+        return template;
+    }
 }

@@ -4,8 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 
 public class LoginParam {
     private Integer userId;
-//    @NotBlank(message="userName must be not blank")
-    private String userName;
+//    @NotBlank(message="username must be not blank")
+    private String username;
 
     private String phoneNumber;
     private String captcha;
@@ -21,12 +21,12 @@ public class LoginParam {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
