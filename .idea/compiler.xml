@@ -8,13 +8,17 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="manage_project" />
-        <module name="manage_pro" />
+        <module name="qaspro" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="manage_pro" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="manage_pro" options="-parameters" />
+      <module name="qaspro" options="-parameters" />
     </option>
   </component>
 </project>

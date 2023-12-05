@@ -1,7 +1,7 @@
 server:
  port: 8080
  servlet:
-  context-path: /managePro
+  context-path: /qas
 spring:
 
  datasource:
@@ -42,7 +42,7 @@ uploadFolder: data/upload/
 logging:
  level:
   root: info
-  com.manage.project.mapper: debug
+  com.zjt.qas.mapper: debug
   org.apache.kafka: info
 
 
