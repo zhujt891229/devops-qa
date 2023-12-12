@@ -43,6 +43,18 @@ spring:
   redis:
    time-to-live: 300000
    type: redis
+ elasticsearch:
+  uris: 127.0.0.1:9200
+  username:
+  password:
+  connection-timeout: 1000
+ data:
+  mongodb:
+   database: test
+   uri: mongodb://localhost:27017/test
+   password:
+   username:
+
 
 mybatis:
  mapper-locations: classpath*:*/*.xml

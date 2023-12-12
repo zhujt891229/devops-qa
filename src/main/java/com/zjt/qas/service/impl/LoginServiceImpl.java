@@ -101,7 +101,7 @@ public class LoginServiceImpl implements LoginService {
         //将密码和盐值作为一个整体进行加密处理
         String md5Password = MD5Util.md5encrypt(oldPassword, Constant.SALT);
         user.setPassword(md5Password);
-        user.setSalt("");
+        user.setSalt(Constant.SALT);
         user.setPhoneNumber(null==loginParam.getPhoneNumber()?"": loginParam.getPhoneNumber());
         user.setUsername(loginParam.getUsername());
         user.setPassword(md5Password);
