@@ -25,6 +25,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserInfo> query() {
-        return null;
+        return userInfoMapper.selectAllUsers();
     }
 }

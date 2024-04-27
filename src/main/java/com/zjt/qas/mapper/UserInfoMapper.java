@@ -1,10 +1,10 @@
 package com.zjt.qas.mapper;
 
 import com.zjt.qas.model.entity.UserInfo;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 public interface UserInfoMapper {
     @Options(useGeneratedKeys = true,keyProperty = "userId",keyColumn = "user_id")
@@ -24,4 +24,7 @@ public interface UserInfoMapper {
 
     @Delete("delete from user_info where user_id = #{userId}")
     int deleteByUserId(Integer userId);
+
+    @Select("select * from user_info where 1=1")
+    List<UserInfo> selectAllUsers();
 }
