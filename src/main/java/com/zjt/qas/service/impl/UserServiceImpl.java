@@ -6,6 +6,8 @@ import com.zjt.qas.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Resource
@@ -19,5 +21,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public int delete(Integer userId) {
         return userInfoMapper.deleteByUserId(userId);
+    }
+
+    @Override
+    public List<UserInfo> query() {
+        return null;
     }
 }
